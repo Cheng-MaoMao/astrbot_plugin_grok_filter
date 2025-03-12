@@ -17,7 +17,7 @@ class R1Filter(Star):
             completion_text = response.completion_text
             # 适配 qwq 模型
             if r'' in completion_text or r'</details>' in completion_text:
-                completion_text = re.sub(r'<details style="color:gray;background-color: #f8f8f8;padding: 8px;border-radius: 4px;" open>.*?</details>', '', completion_text, flags=re.DOTALL).strip()
+                completion_text = re.sub(r'<details style=".*?" open>.*?</details>', '', completion_text, flags=re.DOTALL).strip()
                 # 可能有单标签情况
                 completion_text = completion_text.replace(r'<details>', '').replace(r'</details>', '').strip()
             response.completion_text = completion_text
