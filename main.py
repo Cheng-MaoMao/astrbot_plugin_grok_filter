@@ -9,12 +9,11 @@ class R1Filter(Star):
     def __init__(self, context: Context, config: dict):
         super().__init__(context)
         self.config = config
-        self.display_reasoning_text = self.config.get('display_reasoning_text', True)
-    
+        self.display_reasoning_text = self.config.get('display_reasoning_text', False)
+
     @filter.on_llm_response()
     async def resp(self, event: AstrMessageEvent, response: LLMResponse):
-        if self.display_reasoning_text:
-            # DeepSeek 官方的模型的思考存在了 reason_content 字段因此不需要过滤
+        if not self.display_reasoning_text:
             completion_text = response.completion_text
             # 适配 qwq 模型
             if r'' in completion_text or r'</details>' in completion_text:
